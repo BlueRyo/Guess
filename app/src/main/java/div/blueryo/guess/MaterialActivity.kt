@@ -3,11 +3,13 @@ package div.blueryo.guess
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity;
 
 import kotlinx.android.synthetic.main.activity_material.*
 import kotlinx.android.synthetic.main.content_material.*
+import kotlin.system.exitProcess
 
 class MaterialActivity : AppCompatActivity() {
     val secretNumber=SecretNumber()
@@ -39,17 +41,15 @@ class MaterialActivity : AppCompatActivity() {
         Log.d(TAG,"number:$num")
         var diff=secretNumber.validate(num)
         var msg=getString(R.string.you_got_it)
-        if (diff < 0 ){
-            msg=getString(R.string.bigger)
-        } else {
-            if (diff>0){
-                msg=getString(R.string.smaller)
-            } else {
-                if (secretNumber.count<3){
-                    msg="${getString(R.string.excellent_msg)} ${secretNumber.secret}"
+        when {
+            diff<0 -> msg=getString(R.string.bigger)
+            diff>0 -> msg=getString(R.string.smaller)
+            else ->
+                if (secretNumber.count<3) {
+                    msg = "${getString(R.string.excellent_msg)} ${secretNumber.secret}"
                 }
-            }
         }
+
 //        Toast.makeText(this,msg,Toast.LENGTH_LONG)
         txt_Counter.text=secretNumber.count.toString()
         ed_number2.setText("")
@@ -58,7 +58,6 @@ class MaterialActivity : AppCompatActivity() {
             .setTitle("訊息")
             .setPositiveButton(getString(R.string.ok),{dialog,which ->
                 if (diff==0) {
-                    btn_guess.isEnabled=false
                     AlertDialog.Builder(this)
                         .setTitle(getString(R.string.again))
                         .setMessage(getString(R.string.new_game_q))
@@ -66,9 +65,12 @@ class MaterialActivity : AppCompatActivity() {
                             secretNumber.reset()
                             txt_Counter.text = secretNumber.count.toString()
                             ed_number2.setText("")
-                            Log.d(TAG, "Answer-->${secretNumber.secret}")
+                            Log.d(TAG, "New Game Answer-->${secretNumber.secret}")
                         }
-                        .setNeutralButton(getString(R.string.no), null)
+                        .setNeutralButton("EXIT", {dialog,which ->
+                            moveTaskToBack(true)
+                            exitProcess(-1)
+                        })
                         .show()
                 }
             })
