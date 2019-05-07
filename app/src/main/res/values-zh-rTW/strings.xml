@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">猜數字</string>
+    <string name="title_activity_material">MaterialActivity</string>
+    <string name="ok">好</string>
+    <string name="no">不要</string>
+    <string name="you_got_it">你猜對了！</string>
+    <string name="bigger">大一點</string>
+    <string name="smaller">小一點</string>
+    <string name="excellent_msg">超神的! 數字就是</string>
+    <string name="again">再來?</string>
+    <string name="new_game_q">再來一局嗎?</string>
+    <string name="please_enter_a_number">請輸入數字</string>
+    <string name="guess">猜猜</string>
+</resources>
